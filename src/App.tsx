@@ -1,63 +1,96 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './index.css'
 import About from './components/About'
 import Skills from './components/Skills'
 import Experience from './components/Experience'
 import Contact from './components/Contact'
+import { Sun, Moon } from 'lucide-react'
+
+
+
+
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark')
+    }
+    return false
+  })
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [isDarkMode])
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
 
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode)
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
       {/* Navigation */}
-      <nav className="fixed w-full bg-white dark:bg-gray-800 shadow-md z-50">
+      <nav className="fixed w-full bg-white dark:bg-gray-800 shadow-md z-50 transition-colors duration-200">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
-            <a href="#" className="text-xl font-bold text-gray-900 dark:text-white">
+            <a href="#" className="text-xl font-bold text-gray-900 dark:text-white transition-colors duration-200">
               Hi 👋🏼, I'm Jesús Prian
             </a>
             
             {/* Mobile menu button */}
-            <button
-              onClick={toggleMenu}
-              className="md:hidden text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            <div className="flex items-center space-x-4">
+              
+              <button
+                onClick={toggleMenu}
+                className="md:hidden text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 transition-colors duration-200"
               >
-                {isMenuOpen ? (
-                  <path d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  {isMenuOpen ? (
+                    <path d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
 
             {/* Desktop menu */}
-            <div className="hidden md:flex space-x-8">
-              <a href="#about" className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400">
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#about" className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200">
                 About
               </a>
-              <a href="#skills" className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400">
+              <a href="#skills" className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200">
                 Skills
               </a>
-              <a href="#experience" className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400">
+              <a href="#experience" className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200">
                 Experience
               </a>
-              <a href="#contact" className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400">
+              <a href="#contact" className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200">
                 Contact
               </a>
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-lg text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 focus:outline-none transition-colors duration-200"
+                aria-label="Toggle dark mode"
+              >
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
             </div>
           </div>
 
@@ -67,28 +100,28 @@ function App() {
               <div className="flex flex-col space-y-4">
                 <a
                   href="#about"
-                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400"
+                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
                   onClick={toggleMenu}
                 >
                   About
                 </a>
                 <a
                   href="#skills"
-                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400"
+                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
                   onClick={toggleMenu}
                 >
                   Skills
                 </a>
                 <a
                   href="#experience"
-                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400"
+                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
                   onClick={toggleMenu}
                 >
                   Experience
                 </a>
                 <a
                   href="#contact"
-                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400"
+                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
                   onClick={toggleMenu}
                 >
                   Contact
@@ -108,8 +141,8 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white dark:bg-gray-800 py-8">
-        <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-300">
+      <footer className="bg-white dark:bg-gray-800 py-8 transition-colors duration-200">
+        <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-300 transition-colors duration-200">
           <p>&copy; {new Date().getFullYear()} - Jesús Prian</p>
         </div>
       </footer>
