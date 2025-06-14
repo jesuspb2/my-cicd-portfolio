@@ -51,12 +51,6 @@ const Contact = () => {
                   +34 664 635 223
                 </a>
               </div>
-              <div className="flex items-center space-x-4">
-                <FaMapPin className="w-6 h-6 text-blue-500" />
-                <span className="text-gray-600 dark:text-gray-300">
-                  Madrid, Spain
-                </span>
-              </div>
             </div>
             <form className="space-y-4">
               <div>
