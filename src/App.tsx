@@ -6,15 +6,13 @@ import Experience from './components/Experience'
 import Contact from './components/Contact'
 import { Sun, Moon } from 'lucide-react'
 
-
-
-
-
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return document.documentElement.classList.contains('dark')
+      const stored = localStorage.getItem('darkMode')
+      if (stored !== null) return stored === 'true'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
     }
     return false
   })
@@ -22,18 +20,15 @@ function App() {
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark')
+      localStorage.setItem('darkMode', 'true')
     } else {
       document.documentElement.classList.remove('dark')
+      localStorage.setItem('darkMode', 'false')
     }
   }, [isDarkMode])
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode)
-  }
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const toggleDarkMode = () => setIsDarkMode(prev => !prev)
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
@@ -44,10 +39,15 @@ function App() {
             <a href="#" className="text-xl font-bold text-gray-900 dark:text-white transition-colors duration-200">
               Hi 👋🏼, I'm Jesús Prian
             </a>
-            
             {/* Mobile menu button */}
             <div className="flex items-center space-x-4">
-              
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-lg text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
+                aria-label="Toggle dark mode"
+              >
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
               <button
                 onClick={toggleMenu}
                 className="md:hidden text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 transition-colors duration-200"
@@ -86,7 +86,7 @@ function App() {
               </a>
               <button
                 onClick={toggleDarkMode}
-                className="p-2 rounded-lg text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 focus:outline-none transition-colors duration-200"
+                className="p-2 rounded-lg text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
                 aria-label="Toggle dark mode"
               >
                 {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -98,34 +98,16 @@ function App() {
           {isMenuOpen && (
             <div className="md:hidden py-4">
               <div className="flex flex-col space-y-4">
-                <a
-                  href="#about"
-                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
-                  onClick={toggleMenu}
-                >
-                  About
-                </a>
-                <a
-                  href="#skills"
-                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
-                  onClick={toggleMenu}
-                >
-                  Skills
-                </a>
-                <a
-                  href="#experience"
-                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
-                  onClick={toggleMenu}
-                >
-                  Experience
-                </a>
-                <a
-                  href="#contact"
-                  className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
-                  onClick={toggleMenu}
-                >
-                  Contact
-                </a>
+                {['about', 'skills', 'experience', 'contact'].map((id) => (
+                  <a
+                    key={id}
+                    href={`#${id}`}
+                    className="text-gray-600 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
+                    onClick={toggleMenu}
+                  >
+                    {id.charAt(0).toUpperCase() + id.slice(1)}
+                  </a>
+                ))}
               </div>
             </div>
           )}
