@@ -12,26 +12,35 @@ const About = () => {
           className="max-w-4xl mx-auto"
         >
           <h2 className="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">
-            About Me
+            About Me 👨🏻‍💻
           </h2>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4">
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                I am a passionate developer with expertise in building modern web applications.
-                My journey in software development has equipped me with a strong foundation
-                in both frontend and backend technologies.
+              Software Development Engineer in Test (<span className='font-bold text-black dark:text-white'>SDET</span>) with 
+              <span className='font-bold text-black dark:text-white'> 4+ years of experience</span> designing and implementing 
+              automated testing frameworks for scalable cloud-native applications. 
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                I believe in writing clean, maintainable code and creating intuitive user
-                experiences. When I'm not coding, you can find me exploring new technologies
-                and contributing to open-source projects.
+              Specialized in testing <span className='font-bold text-black dark:text-white'>serverless</span> and <span className='font-bold text-black dark:text-white'>event-driven </span>  
+              architectures on AWS, with deep expertise in <span className='font-bold text-black dark:text-white'>API testing</span>, <span className='font-bold text-black dark:text-white'>CI/CD Integration</span>, 
+              and <span className='font-bold text-black dark:text-white'>cloud observability</span>.
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="w-64 h-64 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                {/* Add your profile image here */}
-                <span className="text-4xl">👨‍💻</span>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="relative w-64 h-64 rounded-full overflow-hidden"
+              >
+                <img
+                  src="/src/assets/aboutme/profile.jpeg"
+                  alt="Jesús Prian"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
             </div>
           </div>
         </motion.div>
