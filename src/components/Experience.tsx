@@ -29,7 +29,7 @@ const experiences = [
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-20 bg-white dark:bg-gray-800">
+    <section id="experience" className="py-20 bg-gray-100 dark:bg-gray-950">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -39,7 +39,7 @@ const Experience = () => {
           className="max-w-4xl mx-auto"
         >
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-            Work Experience
+            Work Experience 💼
           </h2>
           <div className="space-y-8">
             {experiences.map((exp, index) => (
@@ -49,10 +49,10 @@ const Experience = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="relative pl-8 border-l-2 border-blue-500"
+                className="relative pl-8 border-l-2 border-gray-800 dark:border-gray-300"
               >
-                <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-blue-500" />
-                <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-gray-800 dark:bg-gray-300" />
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg">
                   <div className="flex items-start gap-4 mb-4">
                     <img
                       src={exp.logo}
@@ -63,7 +63,7 @@ const Experience = () => {
                       <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                         {exp.title}
                       </h3>
-                      <p className="text-blue-600 dark:text-blue-400 font-medium">
+                      <p className="text-sky-800 dark:text-g font-medium">
                         {exp.company}
                       </p>
                       <p className="text-gray-600 dark:text-gray-300 text-sm">
