@@ -1,18 +1,20 @@
 import { motion } from 'framer-motion';
+import awsArchitect from '../assets/certifications/architect.png'
+import awsPractitioner from '../assets/certifications/practitioner.png'
 
 const certifications = [
   {
     title: 'AWS Certified Solutions Architect',
     issuer: 'Amazon Web Services',
     date: '2024',
-    logo: '/src/assets/certifications/architect.png',
+    logo: awsArchitect,
     link: 'https://www.credly.com/badges/81c75231-8837-41ab-8964-af9ac9e6ea5c/public_url'
   },
   {
     title: 'AWS Certified Cloud Practitioner',
     issuer: 'Amazon Web Services',
     date: '2023',
-    logo: '/src/assets/certifications/practitioner.png',
+    logo: awsPractitioner,
     link: 'https://www.credly.com/badges/093478e0-dcc0-452d-92f5-5095fffa3a40/public_url'
   }
 ];

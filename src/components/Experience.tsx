@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
+import align from '../assets/experience/align.svg'
+import siemens from '../assets/experience/siemens.svg'
 
 const experiences = [
   {
     title: 'Software Engineer in Test',
     company: 'Align Technology',
     period: '2023 - Present',
-    logo: '/src/assets/experience/align.svg',
+    logo: align,
     bullets: [
       'Designed and implemented automated test frameworks for AWS serverless applications, including Step Functions, Lambda, EventBridge, and DynamoDB.',
       'Developed E2E integration and contract tests for event-driven microservices using pytest, Behave (BDD), and Kafka-based messaging',
@@ -17,7 +19,7 @@ const experiences = [
     title: 'QA Engineer',
     company: 'SIEMENS',
     period: '2020 - 2023',
-    logo: '/src/assets/experience/siemens.svg',
+    logo: siemens,
     bullets: [
       'Developed and maintained automated test suites for e-commerce platforms',
       'Created API testing frameworks using Python and Postman',

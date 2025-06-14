@@ -1,16 +1,26 @@
 import { motion } from 'framer-motion';
+import pythonImg from '../assets/skills/python.svg'
+import sqlImg from '../assets/skills/sql.svg'
+import TypeScript from '../assets/skills/typescript.svg'
+import AWS from '../assets/skills/aws.svg'
+import Jenkins from '../assets/skills/jenkins.svg'
+import Terraform from '../assets/skills/terraform.svg'
+import Docker from '../assets/skills/docker.svg'
+import Selenium from '../assets/skills/selenium.svg'
+import Playwright from '../assets/skills/playwright.svg'
+import Cucumber from '../assets/skills/cucumber.svg'
 
 const skills = [
-  { name: 'Python', logo: '/src/assets/skills/python.svg' },
-  { name: 'SQL', logo: '/src/assets/skills/sql.svg' },
-  { name: 'TypeScript', logo: '/src/assets/skills/typescript.svg' },
-  { name: 'AWS', logo: '/src/assets/skills/aws.svg' },
-  { name: 'Jenkins', logo: '/src/assets/skills/jenkins.svg' },
-  { name: 'Terraform', logo: '/src/assets/skills/terraform.svg' },
-  { name: 'Docker', logo: '/src/assets/skills/docker.svg' },
-  { name: 'Selenium', logo: '/src/assets/skills/selenium.svg' },
-  { name: 'Playwright', logo: '/src/assets/skills/playwright.svg' },
-  { name: 'Cucumber', logo: '/src/assets/skills/cucumber.svg' },
+  { name: 'Python', logo: pythonImg },
+  { name: 'SQL', logo: sqlImg },
+  { name: 'TypeScript', logo: TypeScript },
+  { name: 'AWS', logo: AWS },
+  { name: 'Jenkins', logo: Jenkins },
+  { name: 'Terraform', logo: Terraform },
+  { name: 'Docker', logo: Docker },
+  { name: 'Selenium', logo: Selenium },
+  { name: 'Playwright', logo: Playwright },
+  { name: 'Cucumber', logo: Cucumber },
 ];
 
 const Skills = () => {
