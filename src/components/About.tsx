@@ -15,7 +15,7 @@ const About = () => {
           <h2 className="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">
             About Me 👨🏻‍💻
           </h2>
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="flex flex-col-reverse md:grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4">
               <p className="text-lg text-gray-600 dark:text-gray-300">
               Software Engineer in Test (<span className='font-bold text-black dark:text-white'>SDET</span>) with 

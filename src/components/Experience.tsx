@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import align from '../assets/experience/align.svg'
+import align from '../assets/experience/align.png'
 import siemens from '../assets/experience/siemens.svg'
 
 const experiences = [
