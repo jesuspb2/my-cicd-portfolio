@@ -1,8 +1,40 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
 
-
 const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('sending');
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, message })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setName('');
+        setEmail('');
+        setMessage('');
+      } else {
+        throw new Error('Error sending message');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus('error');
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-950">
       <div className="container mx-auto px-4">
@@ -52,7 +84,7 @@ const Contact = () => {
                 </a>
               </div>
             </div>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Name
@@ -60,6 +92,9 @@ const Contact = () => {
                 <input
                   type="text"
                   id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 />
               </div>
@@ -70,6 +105,9 @@ const Contact = () => {
                 <input
                   type="email"
                   id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 />
               </div>
@@ -80,15 +118,25 @@ const Contact = () => {
                 <textarea
                   id="message"
                   rows={4}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
+                className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50"
+                disabled={status === 'sending'}
               >
-                Send Message
+                {status === 'sending' ? 'Sending...' : 'Send Message'}
               </button>
+              {status === 'success' && (
+                <p className="text-green-600 dark:text-green-400">Message sent successfully!</p>
+              )}
+              {status === 'error' && (
+                <p className="text-red-600 dark:text-red-400">Error sending message. Try again later.</p>
+              )}
             </form>
           </div>
         </motion.div>
@@ -97,4 +145,4 @@ const Contact = () => {
   );
 };
 
-export default Contact; 
+export default Contact;
