@@ -17,7 +17,7 @@ const About = () => {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4">
               <p className="text-lg text-gray-600 dark:text-gray-300">
-              Software Development Engineer in Test (<span className='font-bold text-black dark:text-white'>SDET</span>) with 
+              Software Engineer in Test (<span className='font-bold text-black dark:text-white'>SDET</span>) with 
               <span className='font-bold text-black dark:text-white'> 4+ years of experience</span> designing and implementing 
               automated testing frameworks for scalable cloud-native applications. 
               </p>

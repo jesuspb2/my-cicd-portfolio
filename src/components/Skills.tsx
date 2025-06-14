@@ -10,6 +10,7 @@ const skills = [
   { name: 'Docker', logo: '/src/assets/skills/docker.svg' },
   { name: 'Selenium', logo: '/src/assets/skills/selenium.svg' },
   { name: 'Playwright', logo: '/src/assets/skills/playwright.svg' },
+  { name: 'Cucumber', logo: '/src/assets/skills/cucumber.svg' },
 ];
 
 const Skills = () => {
@@ -27,7 +28,7 @@ const Skills = () => {
             Skills & Expertise
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-            {skills.map((skill, index) => (
+            {skills.map((skill) => (
               <motion.div
                 key={skill.name}
                 initial={{ opacity: 0, y: 20 }}
