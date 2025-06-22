@@ -20,8 +20,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_IAM_ROLE }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ARN_ROLE }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Make script executable
         run: chmod +x cicd/scripts/create_backend.sh
@@ -29,6 +29,6 @@ jobs:
       - name: Run backend script
         run: ./cicd/scripts/create_terraform_backend.sh
         env:
-          backend_bucket: ${{ secrets.BACKEND_BUCKET }}
-          backend_dynamodb_table: ${{ secrets.BACKEND_DYNAMODB_TABLE }}
-          aws_region: ${{ secrets.AWS_REGION }}
+          backend_bucket: ${{ vars.BACKEND_BUCKET }}
+          backend_dynamodb_table: ${{ vars.BACKEND_DYNAMODB_TABLE }}
+          aws_region: ${{ vars.AWS_REGION }}
