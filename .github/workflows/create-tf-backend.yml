@@ -8,8 +8,8 @@ on:
         required: true
         type: choice
         options:
-          - dev
-          - prd
+          - DEV
+          - PRD
 
 jobs:
   create-backend:
