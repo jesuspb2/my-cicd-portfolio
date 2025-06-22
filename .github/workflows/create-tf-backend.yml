@@ -37,3 +37,17 @@ jobs:
           backend_bucket: ${{ vars.BACKEND_BUCKET }}
           backend_dynamodb_table: ${{ vars.BACKEND_DYNAMODB_TABLE }}
           aws_region: ${{ vars.AWS_REGION }}
+      - name: Create ECR repository if needed
+        run: |
+          if aws ecr describe-repositories --repository-names "$ECR_REPO" --region "$AWS_REGION" 2>/dev/null; then
+            echo "[INFO] ECR repository already exists: $ECR_REPO"
+          else
+            echo "[INFO] Creating ECR repository: $ECR_REPO"
+            aws ecr create-repository \
+              --repository-name "$ECR_REPO" \
+              --image-scanning-configuration scanOnPush=true \
+              --region "$AWS_REGION"
+            fi
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          ECR_REPO: ${{ secrets.ECR_REPO }}

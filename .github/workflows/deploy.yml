@@ -1,15 +1,8 @@
-name: Deploy to S3 via OIDC
+name: Deploy SPA to DEV (auto)
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Environment to use"
-        required: true
-        type: choice
-        options:
-          - DEV
-          - PRD
+  push:
+    branches: [main]
 
 permissions:
   id-token: write
@@ -18,28 +11,31 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: DEV
+
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      SPA_BUCKET: ${{ secrets.BUCKET }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
 
       - name: Build SPA
+        working-directory: frontend
         run: |
-          cd frontend
-          npm install
+          npm ci
           npm run build
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ARN_ROLE }}
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to S3
-        run: aws s3 sync dist s3://my-jprian-ts-portfolio --delete
+        working-directory: frontend
+        run: aws s3 sync dist s3://$SPA_BUCKET --delete
