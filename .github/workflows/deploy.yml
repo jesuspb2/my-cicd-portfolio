@@ -42,4 +42,4 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Deploy to S3
-        run: aws s3 sync dist s3://my-jprian-ts-portfolio --delete
+        run: aws s3 sync frontend/dist s3://my-jprian-ts-portfolio --delete
