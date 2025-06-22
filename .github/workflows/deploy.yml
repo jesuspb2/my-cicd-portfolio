@@ -22,17 +22,17 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
+      - name: Build SPA
+        run: |
+          cd frontend
+          npm install
+          npm run build
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::765681420218:role/my-ts-portfolio-role
-          aws-region: eu-central-1
+          role-to-assume: ${{ secrets.AWS_ARN_ROLE }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Deploy to S3
         run: aws s3 sync dist s3://my-jprian-ts-portfolio --delete
