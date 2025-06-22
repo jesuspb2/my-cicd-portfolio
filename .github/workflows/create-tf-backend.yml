@@ -50,4 +50,4 @@ jobs:
             fi
         env:
           AWS_REGION: ${{ vars.AWS_REGION }}
-          ECR_REPO: ${{ secrets.ECR_REPO }}
+          ECR_REPO: ${{ vars.ECR_REPO }}
