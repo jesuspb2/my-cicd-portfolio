@@ -1,0 +1,67 @@
+name: Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to use"
+        required: true
+        type: choice
+        options:
+          - DEV
+          - PRD
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ENV:                    ${{ vars.ENV }}
+  APP_NAME:               ${{ vars.APP_NAME }}
+  AWS_REGION:             ${{ vars.AWS_REGION }}
+  AWS_ACCOUNT_ID:         ${{ vars.AWS_ACCOUNT_ID }}
+  BACKEND_BUCKET:         ${{ vars.BACKEND_BUCKET }}
+  BACKEND_DYNAMODB_TABLE: ${{ vars.BACKEND_DYNAMODB_TABLE }}
+  BUCKET_FRONT:           ${{ vars.BUCKET_FRONT }}
+  ECR_REPO:               ${{ vars.ECR_REPO }}
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---------- AWS CREDENTIALS ----------
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ARN_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # ---------- CLEAN UP S3 ----------
+      - name: Empty SPA bucket
+        run: |
+          aws s3 rm "s3://${{ env.BUCKET_FRONT }}" --recursive || true
+
+      - name: Delete S3 public access block (ignore errors)
+        run: |
+          aws s3api delete-public-access-block --bucket ${{ env.BUCKET_FRONT }} || true
+
+      # ---------- TERRAFORM / TERRAGRUNT ----------
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.5"
+
+      - name: Install Terragrunt
+        uses: autero1/action-terragrunt@v3
+        with:
+          terragrunt-version: 0.80.4
+
+      - name: Make destroy script executable
+        run: chmod +x cicd/scripts/destroy.sh
+
+      - name: Destroy infrastructure
+        run: ./cicd/scripts/destroy.sh
