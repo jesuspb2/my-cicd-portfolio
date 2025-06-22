@@ -9,6 +9,21 @@ permissions:
   contents: read
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: DEV
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x cicd/scripts/build.sh
+
+      - name: Run build script
+        run: ./cicd/scripts/build.sh
+        env:
+          aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+          aws_region: ${{ vars.AWS_REGION }}
+
   deploy:
     runs-on: ubuntu-latest
     environment: DEV
