@@ -29,7 +29,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Make script executable
-        run: chmod +x cicd/scripts/create_backend.sh
+        run: chmod +x cicd/scripts/create_terraform_backend.sh
 
       - name: Run backend script
         run: ./cicd/scripts/create_terraform_backend.sh
