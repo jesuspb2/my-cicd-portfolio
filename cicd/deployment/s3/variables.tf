@@ -14,3 +14,8 @@ variable "versioning_enabled" {
   type        = bool
   default     = true
 }
+
+variable "cloudfront_distribution_arn" {
+  description = "The ARN of the CloudFront distribution that can access this bucket"
+  type        = string
+}

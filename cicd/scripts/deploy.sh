@@ -15,6 +15,10 @@ echo "[INFO] API URL: ${API_URL}"
 echo "API_URL=$API_URL" >> "$GITHUB_ENV"
 echo "api_url=$API_URL" >> "$GITHUB_OUTPUT"
 
+echo "[INFO] Deploying CloudFront for application: ${APP_NAME} in environment: ${ENV}"
+cd ../cloudfront || exit
+terragrunt run-all apply --terragrunt-non-interactive -no-color
+
 echo "[INFO] Deploying S3 bucket for application: ${APP_NAME} in environment: ${ENV}"
 cd ../s3 || exit
 terragrunt run-all apply --terragrunt-non-interactive -no-color

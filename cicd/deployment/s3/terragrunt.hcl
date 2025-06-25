@@ -2,6 +2,10 @@ include {
   path = find_in_parent_folders()
 }
 
+dependency "cloudfront" {
+  config_path = "../cloudfront"
+}
+
 locals {
   env         = get_env("ENV")
   app         = get_env("APP_NAME")
@@ -15,4 +19,5 @@ inputs = {
   app_name           = local.app
   versioning_enabled = true
   allow_public_read  = true
+  cloudfront_distribution_arn = dependency.cloudfront.outputs.cloudfront_distribution_arn
 }
