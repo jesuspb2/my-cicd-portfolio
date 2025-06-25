@@ -44,6 +44,11 @@ data "aws_iam_policy_document" "cloudfront_only" {
 resource "aws_s3_bucket_policy" "cloudfront_only" {
   bucket = aws_s3_bucket.this.id
   policy = data.aws_iam_policy_document.cloudfront_only.json
+
+  depends_on = [
+    aws_s3_bucket.this,
+    aws_s3_bucket_public_access_block.this
+  ]
 }
 
 resource "aws_s3_bucket_ownership_controls" "this" {
