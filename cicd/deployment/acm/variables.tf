@@ -1,19 +1,19 @@
 variable "domain_name" {
-  description = "The domain name to secure with ACM"
+  description = "Domain to secure with ACM"
   type        = string
 }
 
 variable "app_name" {
-  description = "The application name"
+  description = "App name"
   type        = string
 }
 
 variable "environment" {
-  description = "Environment name (dev, prd, etc)"
+  description = "Environment name"
   type        = string
 }
 
 variable "hosted_zone_id" {
-  description = "The ID of the hosted zone where validation records will be created"
+  description = "Hosted zone ID for validation"
   type        = string
 }

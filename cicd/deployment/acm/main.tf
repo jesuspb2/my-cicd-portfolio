@@ -1,13 +1,22 @@
 provider "aws" {
-  region = "us-east-1"
   alias  = "virginia"
+  region = "us-east-1"
+}
+
+data "aws_acm_certificate" "existing" {
+  provider    = aws.virginia
+  domain      = var.domain_name
+  statuses    = ["ISSUED"]
+  most_recent = true
 }
 
 resource "aws_acm_certificate" "this" {
   provider = aws.virginia
+  count    = data.aws_acm_certificate.existing.arn != "" ? 0 : 1
+
   domain_name               = var.domain_name
   validation_method         = "DNS"
-  subject_alternative_names = ["www.${var.domain_name}"]
+  subject_alternative_names = ["*.${var.domain_name}"]
 
   lifecycle {
     create_before_destroy = true
@@ -21,8 +30,10 @@ resource "aws_acm_certificate" "this" {
 }
 
 resource "aws_route53_record" "validation" {
+  count = length(aws_acm_certificate.this) > 0 ? 1 : 0
+
   for_each = {
-    for dvo in aws_acm_certificate.this.domain_validation_options : dvo.domain_name => {
+    for dvo in aws_acm_certificate.this[0].domain_validation_options : dvo.domain_name => {
       name  = dvo.resource_record_name
       type  = dvo.resource_record_type
       value = dvo.resource_record_value
@@ -37,6 +48,13 @@ resource "aws_route53_record" "validation" {
 }
 
 resource "aws_acm_certificate_validation" "this" {
-  certificate_arn         = aws_acm_certificate.this.arn
+  provider  = aws.virginia
+  count     = length(aws_acm_certificate.this) > 0 ? 1 : 0
+
+  certificate_arn = aws_acm_certificate.this[0].arn
   validation_record_fqdns = [for record in aws_route53_record.validation : record.fqdn]
+
+  timeouts {
+    create = "5m"
+  }
 }
