@@ -1,31 +1,41 @@
-data "aws_route53_record" "apex_a_existing" {
-  zone_id = var.zone_id
-  name    = var.domain_name
-  type    = "A"
+# zone
+data "aws_route53_zone" "selected" {
+  name         = var.domain_name
+  private_zone = false
 }
 
-data "aws_route53_record" "apex_aaaa_existing" {
-  zone_id = var.zone_id
-  name    = var.domain_name
-  type    = "AAAA"
+# apex A
+data "aws_route53_records" "apex_a" {
+  zone_id    = data.aws_route53_zone.selected.zone_id
+  name_regex = "^${replace(var.domain_name, ".", "\\.")}$"
+  type       = "A"
 }
 
-data "aws_route53_record" "www_a_existing" {
-  zone_id = var.zone_id
-  name    = "www.${var.domain_name}"
-  type    = "A"
+# apex AAAA
+data "aws_route53_records" "apex_aaaa" {
+  zone_id    = data.aws_route53_zone.selected.zone_id
+  name_regex = "^${replace(var.domain_name, ".", "\\.")}$"
+  type       = "AAAA"
 }
 
-data "aws_route53_record" "www_aaaa_existing" {
-  zone_id = var.zone_id
-  name    = "www.${var.domain_name}"
-  type    = "AAAA"
+# www A
+data "aws_route53_records" "www_a" {
+  zone_id    = data.aws_route53_zone.selected.zone_id
+  name_regex = "^www\\.${replace(var.domain_name, ".", "\\.")}$"
+  type       = "A"
 }
+
+# www AAAA
+data "aws_route53_records" "www_aaaa" {
+  zone_id    = data.aws_route53_zone.selected.zone_id
+  name_regex = "^www\\.${replace(var.domain_name, ".", "\\.")}$"
+  type       = "AAAA"
+}
+
 
 resource "aws_route53_record" "apex_a" {
-  count = data.aws_route53_record.apex_a_existing.fqdn != "" ? 0 : 1
-
-  zone_id = var.zone_id
+  count  = length(data.aws_route53_records.apex_a.resource_record_sets) > 0 ? 0 : 1
+  zone_id = data.aws_route53_zone.selected.zone_id
   name    = var.domain_name
   type    = "A"
   alias {
@@ -36,12 +46,10 @@ resource "aws_route53_record" "apex_a" {
 }
 
 resource "aws_route53_record" "apex_aaaa" {
-  count = data.aws_route53_record.apex_aaaa_existing.fqdn != "" ? 0 : 1
-
-  zone_id = var.zone_id
+  count  = length(data.aws_route53_records.apex_aaaa.resource_record_sets) > 0 ? 0 : 1
+  zone_id = data.aws_route53_zone.selected.zone_id
   name    = var.domain_name
   type    = "AAAA"
-
   alias {
     name                   = var.cloudfront_domain_name
     zone_id                = var.cloudfront_zone_id
@@ -50,12 +58,10 @@ resource "aws_route53_record" "apex_aaaa" {
 }
 
 resource "aws_route53_record" "www_a" {
-  count = data.aws_route53_record.www_a_existing.fqdn != "" ? 0 : 1
-
-  zone_id = var.zone_id
+  count  = length(data.aws_route53_records.www_a.resource_record_sets) > 0 ? 0 : 1
+  zone_id = data.aws_route53_zone.selected.zone_id
   name    = "www.${var.domain_name}"
   type    = "A"
-
   alias {
     name                   = var.cloudfront_domain_name
     zone_id                = var.cloudfront_zone_id
@@ -64,12 +70,10 @@ resource "aws_route53_record" "www_a" {
 }
 
 resource "aws_route53_record" "www_aaaa" {
-  count = data.aws_route53_record.www_aaaa_existing.fqdn != "" ? 0 : 1
-
-  zone_id = var.zone_id
+  count  = length(data.aws_route53_records.www_aaaa.resource_record_sets) > 0 ? 0 : 1
+  zone_id = data.aws_route53_zone.selected.zone_id
   name    = "www.${var.domain_name}"
   type    = "AAAA"
-
   alias {
     name                   = var.cloudfront_domain_name
     zone_id                = var.cloudfront_zone_id
