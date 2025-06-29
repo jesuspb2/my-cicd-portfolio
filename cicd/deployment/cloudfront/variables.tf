@@ -12,3 +12,13 @@ variable "aws_region" {
   description = "AWS region."
   type        = string
 }
+
+variable "domain_name" {
+  description = "Domain name for the CloudFront distribution."
+  type        = string
+}
+
+variable "certificate_arn" {
+  description = "ARN of the ACM certificate to use for HTTPS."
+  type        = string
+}

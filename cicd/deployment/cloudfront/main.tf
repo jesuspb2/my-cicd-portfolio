@@ -11,6 +11,7 @@ resource "aws_cloudfront_distribution" "this" {
   is_ipv6_enabled     = true
   comment             = "${var.app_name}-cdn"
   default_root_object = "index.html"
+  aliases             = [var.domain_name, "www.${var.domain_name}"]
 
   origin {
     domain_name              = "${var.bucket_name}.s3.${var.aws_region}.amazonaws.com"
@@ -34,7 +35,10 @@ resource "aws_cloudfront_distribution" "this" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn            = var.certificate_arn
+    ssl_support_method             = "sni-only"
+    minimum_protocol_version       = "TLSv1.2_2021"
+    cloudfront_default_certificate = false
   }
 
   restrictions {
