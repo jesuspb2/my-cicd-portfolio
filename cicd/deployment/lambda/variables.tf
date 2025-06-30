@@ -1,7 +1,22 @@
-variable "app_name" {}
-variable "aws_account_id" {}
-variable "environment" {}
-variable "aws_region" {}
+variable "app_name" {
+  type        = string
+  description = "App name"
+}
+
+variable "aws_account_id" {
+  type        = string
+  description = "AWS account ID"
+}
+
+variable "environment" {
+  type        = string
+  description = "Environment"
+}
+
+variable "aws_region" {
+  type        = string
+  description = "AWS region"
+}
 variable "lambda_image_uri" {
   type        = string
   description = "URI of the Docker image published in ECR"
@@ -15,4 +30,9 @@ variable "from_email" {
 variable "to_email" {
   type        = string
   description = "Email address to send to"
+}
+
+variable "domain_name" {
+  type        = string
+  description = "Domain name"
 }

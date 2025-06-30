@@ -11,10 +11,12 @@ locals {
   image_tag      = get_env("IMAGE_TAG", "")
   from_email     = get_env("FROM_EMAIL")
   to_email       = get_env("TO_EMAIL")
+  domain_name    = get_env("DOMAIN_NAME")
 
   lambda_image_uri = "${local.ecr_url}:${local.image_tag}"
 }
 
 inputs = {
   lambda_image_uri = local.lambda_image_uri
+  domain_name      = local.domain_name
 }
