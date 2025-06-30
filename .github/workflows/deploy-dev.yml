@@ -17,6 +17,9 @@ env:
   BACKEND_DYNAMODB_TABLE: ${{ vars.BACKEND_DYNAMODB_TABLE }}
   BUCKET_FRONT:           ${{ vars.BUCKET_FRONT }}
   DOMAIN_NAME:            ${{ vars.DOMAIN_NAME }}
+  API_URL:                ${{ vars.API_URL }}
+  FROM_EMAIL:             ${{ vars.FROM_EMAIL }}
+  TO_EMAIL:               ${{ vars.TO_EMAIL }}
 
 jobs:
   # --------------------------- BUILD BACKEND ---------------------------

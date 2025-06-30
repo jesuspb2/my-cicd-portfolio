@@ -53,6 +53,13 @@ resource "aws_lambda_function" "lambda" {
   package_type  = "Image"
   image_uri     = "${var.lambda_image_uri}"
 
+  environment {
+    variables = {
+      FROM_EMAIL = var.from_email
+      TO_EMAIL   = var.to_email
+    }
+  }
+
   tags = {
     App = var.app_name
   }
