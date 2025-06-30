@@ -16,6 +16,7 @@ env:
   BACKEND_BUCKET:         ${{ vars.BACKEND_BUCKET }}
   BACKEND_DYNAMODB_TABLE: ${{ vars.BACKEND_DYNAMODB_TABLE }}
   BUCKET_FRONT:           ${{ vars.BUCKET_FRONT }}
+  DOMAIN_NAME:            ${{ vars.DOMAIN_NAME }}
 
 jobs:
   # --------------------------- BUILD BACKEND ---------------------------
