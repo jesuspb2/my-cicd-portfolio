@@ -34,7 +34,16 @@ resource "aws_iam_policy" "lambda_policy" {
         "Resource": [
           "arn:aws:logs:${var.aws_region}:${var.aws_account_id}:*"
         ]
-      }
+      },
+      {
+      "Sid": "SendEmailPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource": "arn:aws:ses:${var.aws_region}:${var.aws_account_id}:identity/${var.domain_name}"
+    }
     ]
   }
   EOF
