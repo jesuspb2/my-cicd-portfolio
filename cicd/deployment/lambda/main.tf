@@ -42,7 +42,7 @@ resource "aws_iam_policy" "lambda_policy" {
         "ses:SendEmail",
         "ses:SendRawEmail"
       ],
-      "Resource": "arn:aws:ses:${var.aws_region}:${var.aws_account_id}:identity/${var.domain_name}"
+      "Resource": "arn:aws:ses:${var.aws_region}:${var.aws_account_id}:identity/*"
     }
     ]
   }
