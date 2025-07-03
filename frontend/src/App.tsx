@@ -128,7 +128,7 @@ function App() {
       {/* Footer */}
       <footer className="bg-gray-100 dark:bg-gray-900 py-8 transition-colors duration-200">
         <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-300 transition-colors duration-200">
-          <p>&copy; {new Date().getFullYear()} - Jesús Prian</p>
+          <p>&copy; {new Date().getFullYear()} - More info about this project on GitHub: <a className="text underline" target="_blank" href="https://github.com/jesuspb2/my-cicd-portfolio">my-cicd-portfolio</a></p>
         </div>
       </footer>
     </div>
