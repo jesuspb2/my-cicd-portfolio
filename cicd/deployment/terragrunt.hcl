@@ -7,6 +7,8 @@ locals {
   aws_account_id         = get_env("AWS_ACCOUNT_ID")
   ecr_url                = get_env("ECR_URL", "")
   image_tag              = get_env("IMAGE_TAG", "")
+  from_email             = get_env("FROM_EMAIL")
+  to_email               = get_env("TO_EMAIL")
 }
 
 remote_state {
@@ -52,5 +54,7 @@ inputs = {
   environment    = local.environment
   aws_region     = local.aws_region
   aws_account_id = get_env("AWS_ACCOUNT_ID")
+  from_email     = local.from_email
+  to_email       = local.to_email
 }
 

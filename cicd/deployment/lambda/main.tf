@@ -34,7 +34,16 @@ resource "aws_iam_policy" "lambda_policy" {
         "Resource": [
           "arn:aws:logs:${var.aws_region}:${var.aws_account_id}:*"
         ]
-      }
+      },
+      {
+      "Sid": "SendEmailPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource": "arn:aws:ses:${var.aws_region}:${var.aws_account_id}:identity/*"
+    }
     ]
   }
   EOF
@@ -52,6 +61,14 @@ resource "aws_lambda_function" "lambda" {
 
   package_type  = "Image"
   image_uri     = "${var.lambda_image_uri}"
+
+  environment {
+    variables = {
+      FROM_EMAIL = var.from_email
+      TO_EMAIL   = var.to_email
+      SES_REGION = var.aws_region
+    }
+  }
 
   tags = {
     App = var.app_name
