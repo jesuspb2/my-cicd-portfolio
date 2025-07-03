@@ -1,6 +1,4 @@
-#!/bin/bash
-set -e
-export PAGER=
+#!/bin/bash -e
 
 # ----- Create S3 backend for Terraform -----
 echo "[INFO] Creating S3 bucket: ${backend_bucket}"

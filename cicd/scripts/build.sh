@@ -1,3 +1,5 @@
+#!/bin/bash -e
+
 echo "[INFO] Building and pushing Docker image to ECR"
 
 export IMAGE_TAG="build-$(date +%s)"

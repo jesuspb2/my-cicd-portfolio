@@ -46,12 +46,12 @@ const Contact = () => {
           className="max-w-4xl mx-auto"
         >
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-            Get in Touch ☎️
+            Let's connect ⚡️
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <div className="flex items-center space-x-4">
-                <FaLinkedin className="w-6 h-6 text-blue-500" />
+                <FaLinkedin className="w-6 h-6 text-gray-900 dark:text-gray-300" />
                 <a 
                   href="https://www.linkedin.com/in/jesusprianbaena/" 
                   target="_blank"
@@ -62,18 +62,18 @@ const Contact = () => {
                 </a>
               </div>
               <div className="flex items-center space-x-4">
-                <FaEnvelope className="w-6 h-6 text-blue-500" />
+                <FaEnvelope className="w-6 h-6 text-gray-900 dark:text-gray-300" />
                 <a 
                   href="mailto:jesuspb2@gmail.com" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 dark:text-gray-300 hover:text-blue-500"
+                  className="text-gray-900 dark:text-gray-300 hover:text-blue-500"
                 >
                   jesuspb2@gmail.com
                 </a>
               </div>
               <div className="flex items-center space-x-4">
-                <FaPhone className="w-6 h-6 text-blue-500" />
+                <FaPhone className="w-6 h-6 text-gray-900 dark:text-gray-300" />
                 <a 
                   href="tel:+34664635223" 
                   target="_blank"

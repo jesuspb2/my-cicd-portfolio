@@ -1,6 +1,4 @@
-#!/bin/bash
-set -e
-export PAGER=
+#!/bin/bash -e
 
 echo "[INFO] Moving into Terragrunt api_gw module directory"
 cd ./cicd/deployment/api_gw || exit

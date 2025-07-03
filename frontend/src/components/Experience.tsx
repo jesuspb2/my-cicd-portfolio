@@ -9,10 +9,11 @@ const experiences = [
     period: '2023 - Present',
     logo: align,
     bullets: [
-      'Designed and implemented automated test frameworks for AWS serverless applications, including Step Functions, Lambda, EventBridge, and DynamoDB.',
+      'Developed and executed functional, regression, and end-to-end automated tests using Python with Behave and Pytest frameworks, improving overall test coverage and reliability.',
       'Developed E2E integration and contract tests for event-driven microservices using pytest, Behave (BDD), and Kafka-based messaging',
       'Implemented CI/CD pipelines using Bamboo, ensuring automated build, test, and deploy processes.',
-      'Monitored test results and cloud system behavior using CloudWatch and Splunk.'
+      'Monitored test results and cloud system behavior using CloudWatch and Splunk.',
+      'Designed and implemented AWS Step Functions pipelines to orchestrate test data creation workflows, improving scalability of test environments.',
     ]
   },
   {
@@ -21,10 +22,11 @@ const experiences = [
     period: '2020 - 2023',
     logo: siemens,
     bullets: [
-      'Developed and maintained automated test suites for e-commerce platforms',
-      'Created API testing frameworks using Python and Postman',
-      'Collaborated with development teams to implement testing best practices',
-      'Improved test coverage by 40% through automation initiatives'
+      'Conducted manual testing of critical user flows, identifying and reporting bugs with clear documentation and reproducible steps.',
+      'Developed and maintained automated UI tests using Selenium WebDriver with Python/Java, improving test coverage and accelerating regression cycles',
+      'Wrote and executed SQL queries to validate backend data, ensuring consistency between frontend and database layers',
+      'Performed API testing with Postman to validate REST endpoints and verify data integrity across systems',
+      'Participated in requirements reviews and sprint planning to provide testability feedback and improve overall product quality'
     ]
   }
 ];
@@ -41,7 +43,7 @@ const Experience = () => {
           className="max-w-4xl mx-auto"
         >
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-            Work Experience 💼
+            Experience 💼
           </h2>
           <div className="space-y-8">
             {experiences.map((exp, index) => (
