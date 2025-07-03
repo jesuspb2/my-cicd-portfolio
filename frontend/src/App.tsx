@@ -31,6 +31,17 @@ function App() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const toggleDarkMode = () => setIsDarkMode(prev => !prev)
 
+  const handleNavClick = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+    setIsMenuOpen(false)
+  }
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
       {/* Navigation */}
@@ -46,21 +57,36 @@ function App() {
             <div className="flex items-center space-x-8">
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-8">
-                <a href="#about" className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">
+                <button 
+                  onClick={() => handleNavClick('about')}
+                  className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200"
+                >
                   About
-                </a>
-                <a href="#skills" className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">
-                  Skills
-                </a>
-                <a href="#experience" className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">
+                </button>
+                <button 
+                  onClick={() => handleNavClick('experience')}
+                  className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200"
+                >
                   Experience
-                </a>
-                <a href="#certifications" className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">
+                </button>
+                <button 
+                  onClick={() => handleNavClick('skills')}
+                  className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200"
+                >
+                  Skills
+                </button>
+                <button 
+                  onClick={() => handleNavClick('certifications')}
+                  className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200"
+                >
                   Certifications
-                </a>
-                <a href="#contact" className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">
+                </button>
+                <button 
+                  onClick={() => handleNavClick('contact')}
+                  className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200"
+                >
                   Contact
-                </a>
+                </button>
               </div>
 
               {/* Dark mode toggle */}
@@ -101,14 +127,13 @@ function App() {
             <div className="md:hidden py-4">
               <div className="flex flex-col space-y-4">
                 {['about', 'skills', 'experience', 'certifications', 'contact'].map((id) => (
-                  <a
+                  <button
                     key={id}
-                    href={`#${id}`}
-                    className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200"
-                    onClick={toggleMenu}
+                    onClick={() => handleNavClick(id)}
+                    className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200 text-left"
                   >
                     {id.charAt(0).toUpperCase() + id.slice(1)}
-                  </a>
+                  </button>
                 ))}
               </div>
             </div>
