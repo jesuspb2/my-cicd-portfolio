@@ -31,7 +31,7 @@ const Certifications = () => {
           className="max-w-4xl mx-auto"
         >
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-            Certifications ✅
+            Certifications 🎓
           </h2>
           <div className="flex justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">

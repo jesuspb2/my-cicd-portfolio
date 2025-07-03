@@ -1,6 +1,4 @@
-#!/bin/bash
-set -e
-export PAGER=
+#!/bin/bash -e
 
 echo "[INFO] Deploying Route 53 for application: ${APP_NAME} in environment: ${ENV}"
 cd ./cicd/deployment/route53 || exit
