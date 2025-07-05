@@ -21,6 +21,12 @@ def handler(event, context):
                 "body": json.dumps({"error": "Missing required fields"})
             }
 
+        if len(name) > 20:
+            return {
+                "statusCode": 400,
+                "body": json.dumps({"error": "Name must be less than 20 characters"})
+            }
+
         ses.send_email(
             Source=FROM_EMAIL,
             Destination={"ToAddresses": [TO_EMAIL]},
