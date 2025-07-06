@@ -10,6 +10,7 @@ locals {
   app_name   = get_env("APP_NAME")
   env        = get_env("ENV")
   domain     = get_env("DOMAIN_NAME")
+  domain_api = get_env("DOMAIN_API_NAME")
 }
 
 inputs = {
@@ -17,4 +18,5 @@ inputs = {
   app_name       = local.app_name
   environment    = local.env
   hosted_zone_id = dependency.route53.outputs.zone_id
+  domain_api     = local.domain_api
 }

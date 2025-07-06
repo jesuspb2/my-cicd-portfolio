@@ -24,3 +24,7 @@ echo "[INFO] Deploying S3 bucket for application: ${APP_NAME} in environment: ${
 cd ../s3 || exit
 terragrunt run-all apply --terragrunt-non-interactive -no-color
 
+echo "[INFO] Deploying API Gateway for application: ${APP_NAME} in environment: ${ENV}"
+cd ../api_gw || exit
+terragrunt run-all apply --terragrunt-non-interactive -no-color
+

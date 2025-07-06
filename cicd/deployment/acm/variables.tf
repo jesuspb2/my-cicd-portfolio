@@ -17,3 +17,8 @@ variable "hosted_zone_id" {
   description = "Hosted zone ID for validation"
   type        = string
 }
+
+variable "domain_api" {
+  description = "Domain for API Gateway"
+  type        = string
+}

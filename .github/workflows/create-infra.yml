@@ -23,6 +23,7 @@ env:
   API_URL:                ${{ vars.API_URL }}
   FROM_EMAIL:             ${{ vars.FROM_EMAIL }}
   TO_EMAIL:               ${{ vars.TO_EMAIL }}
+  DOMAIN_API_NAME:        ${{ vars.DOMAIN_API_NAME }}
 
 permissions:
   id-token: write

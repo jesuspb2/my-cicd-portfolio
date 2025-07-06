@@ -2,10 +2,15 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "lambda" {
-  config_path = "../lambda"
+dependency "acm" {
+  config_path = "../acm"
+}
+
+locals {
+  domain_api = get_env("DOMAIN_API_NAME")
 }
 
 inputs = {
-  lambda_invoke_arn = dependency.lambda.outputs.lambda_invoke_arn
+  api_certificate_arn = dependency.acm.outputs.api_certificate_arn
+  domain_api     = local.domain_api
 }

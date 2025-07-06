@@ -9,6 +9,7 @@ locals {
   image_tag              = get_env("IMAGE_TAG", "")
   from_email             = get_env("FROM_EMAIL")
   to_email               = get_env("TO_EMAIL")
+  domain_api_name        = get_env("DOMAIN_API_NAME")
 }
 
 remote_state {
