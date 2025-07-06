@@ -14,3 +14,8 @@ variable "api_certificate_arn" {
     type = string
     description = "The ARN of the API ACM certificate"
 }
+variable "zone_id" {
+  description = "The Route53 hosted zone ID for the domain"
+  type        = string
+}
+
