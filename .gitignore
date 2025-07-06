@@ -28,3 +28,12 @@ dist-ssr
 
 #backend
 **/venv/
+
+#Python
+
+.pytest_cache/**
+secrets.yaml
+*.pyc
+*.pyo
+__pycache__
+allure-results
