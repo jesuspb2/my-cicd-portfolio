@@ -36,3 +36,8 @@ variable "domain_name" {
   type        = string
   description = "Domain name"
 }
+
+variable "api_gateway_id" {
+  type        = string
+  description = "API Gateway ID"
+}
