@@ -1,0 +1,39 @@
+name: Create AWS Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to use"
+        required: true
+        type: choice
+        options:
+          - DEV
+          - PRD
+
+env:
+  ENV:                    ${{ vars.ENV }}
+  APP_NAME:               ${{ vars.APP_NAME }}
+  AWS_REGION:             ${{ vars.AWS_REGION }}
+  AWS_ACCOUNT_ID:         ${{ vars.AWS_ACCOUNT_ID }}
+  DOMAIN_NAME:            ${{ vars.DOMAIN_NAME }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ARN_ROLE }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Run create-infra script
+        run: ./cicd/scripts/create-infra.sh
