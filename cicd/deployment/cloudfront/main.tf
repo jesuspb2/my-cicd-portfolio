@@ -1,5 +1,5 @@
 resource "aws_cloudfront_origin_access_control" "this" {
-  name                              = "${var.app_name}"
+  name                              = "${var.env}-${var.app_name}"
   description                       = "CloudFront for ${var.app_name}"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"

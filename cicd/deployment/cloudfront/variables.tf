@@ -22,3 +22,8 @@ variable "certificate_arn" {
   description = "ARN of the ACM certificate to use for HTTPS."
   type        = string
 }
+
+variable "env" {
+  description = "Environment"
+  type        = string
+}

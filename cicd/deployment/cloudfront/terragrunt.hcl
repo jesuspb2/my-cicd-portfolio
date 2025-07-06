@@ -15,6 +15,7 @@ locals {
 
 inputs = {
   app_name        = local.app
+  env             = get_env("ENV")
   bucket_name     = local.bucket_name
   aws_region      = local.region
   domain_name     = local.domain_name
