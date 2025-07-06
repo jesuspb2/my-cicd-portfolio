@@ -33,3 +33,8 @@ resource "aws_api_gateway_domain_name" "this" {
   security_policy = "TLS_1_2"
 }
 
+resource "aws_apigatewayv2_api_mapping" "this" {
+  api_id      = aws_apigatewayv2_api.http_api.id
+  domain_name = aws_api_gateway_domain_name.this.domain_name
+  stage       = aws_apigatewayv2_stage.default.name
+}
