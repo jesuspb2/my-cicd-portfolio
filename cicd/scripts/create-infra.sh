@@ -23,3 +23,4 @@ aws cloudfront create-invalidation \
 echo "[INFO] Deploying S3 bucket for application: ${APP_NAME} in environment: ${ENV}"
 cd ../s3 || exit
 terragrunt run-all apply --terragrunt-non-interactive -no-color
+

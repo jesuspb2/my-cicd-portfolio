@@ -27,3 +27,8 @@ variable "env" {
   description = "Environment"
   type        = string
 }
+
+variable "zone_id" {
+  description = "Route53 zone ID for the domain."
+  type        = string
+}

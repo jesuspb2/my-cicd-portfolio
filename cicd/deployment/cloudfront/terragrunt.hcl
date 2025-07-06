@@ -6,6 +6,10 @@ dependency "acm" {
   config_path = "../acm"
 }
 
+dependency "route53" {
+  config_path = "../route53"
+}
+
 locals {
   app         = get_env("APP_NAME")
   region      = get_env("AWS_REGION")
@@ -20,4 +24,5 @@ inputs = {
   aws_region      = local.region
   domain_name     = local.domain_name
   certificate_arn = dependency.acm.outputs.certificate_arn
+  zone_id         = dependency.route53.outputs.zone_id
 }
