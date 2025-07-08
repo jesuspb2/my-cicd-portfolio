@@ -65,9 +65,7 @@ resource "aws_lambda_function" "lambda" {
 
   environment {
     variables = {
-      FROM_EMAIL = var.from_email
-      TO_EMAIL   = var.to_email
-      SES_REGION = var.aws_region
+      DDB_TABLE = var.dynamodb_table_name
     }
   }
 
