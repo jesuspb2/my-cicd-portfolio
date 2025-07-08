@@ -7,7 +7,7 @@ export ECR_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ENV}-${A
 
 aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 
-docker buildx build --platform linux/amd64 --provenance=false -t "${ENV}-${APP_NAME}" ./backend
+docker buildx build --platform linux/amd64 --provenance=false -t "${ENV}-${APP_NAME}" ./backend/src
 docker tag "${ENV}-${APP_NAME}" "${ECR_URL}:${IMAGE_TAG}"
 docker push "${ECR_URL}:${IMAGE_TAG}"
 
