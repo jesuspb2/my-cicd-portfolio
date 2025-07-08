@@ -7,20 +7,22 @@ dependency "api_gw" {
 }
 
 locals {
-  app_name       = get_env("APP_NAME")
-  environment    = get_env("ENV")
-  aws_region     = get_env("AWS_REGION")
-  aws_account_id = get_env("AWS_ACCOUNT_ID")
-  ecr_url        = get_env("ECR_URL", "")
-  image_tag      = get_env("IMAGE_TAG", "")
-  from_email     = get_env("FROM_EMAIL")
-  to_email       = get_env("TO_EMAIL")
-  domain_name    = get_env("DOMAIN_NAME")
-  lambda_image_uri = "${local.ecr_url}:${local.image_tag}"
+  app_name               = get_env("APP_NAME")
+  environment            = get_env("ENV")
+  aws_region             = get_env("AWS_REGION")
+  aws_account_id         = get_env("AWS_ACCOUNT_ID")
+  ecr_url                = get_env("ECR_URL", "")
+  image_tag              = get_env("IMAGE_TAG", "")
+  from_email             = get_env("FROM_EMAIL")
+  to_email               = get_env("TO_EMAIL")
+  domain_name            = get_env("DOMAIN_NAME")
+  lambda_image_uri       = "${local.ecr_url}:${local.image_tag}"
+  dynamodb_table_name    = get_env("DYNAMODB_TABLE_NAME")
 }
 
 inputs = {
-  lambda_image_uri = local.lambda_image_uri
-  domain_name      = local.domain_name
-  api_gateway_id   = dependency.api_gw.outputs.api_gateway_id
+  lambda_image_uri    = local.lambda_image_uri
+  domain_name         = local.domain_name
+  api_gateway_id      = dependency.api_gw.outputs.api_gateway_id
+  dynamodb_table_name = local.dynamodb_table_name
 }

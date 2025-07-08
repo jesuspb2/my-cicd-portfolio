@@ -2,7 +2,7 @@ name: CICD - Deploy to DEV
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main, dev-backend]
 
 permissions:
   id-token: write
@@ -20,8 +20,20 @@ env:
   DOMAIN_API_NAME:        ${{ vars.DOMAIN_API_NAME }}
   FROM_EMAIL:             ${{ vars.FROM_EMAIL }}
   TO_EMAIL:               ${{ vars.TO_EMAIL }}
+  DYNAMODB_TABLE_NAME:    ${{ vars.DYNAMODB_TABLE_NAME }}
 
 jobs:
+  # --------------------------- UNIT TESTS ---------------------------
+  unit-tests:
+    runs-on: ubuntu-latest
+    environment: DEV
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          pip install -r backend/tests/requirements.txt
+          pytest backend/tests/test_handler.py -s -v
+
   # --------------------------- BUILD BACKEND ---------------------------
   build-backend:
     runs-on: ubuntu-latest

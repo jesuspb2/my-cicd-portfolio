@@ -41,3 +41,8 @@ variable "api_gateway_id" {
   type        = string
   description = "API Gateway ID"
 }
+
+variable "dynamodb_table_name" {
+  type        = string
+  description = "DynamoDB table name"
+}

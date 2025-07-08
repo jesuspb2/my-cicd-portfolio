@@ -36,14 +36,15 @@ resource "aws_iam_policy" "lambda_policy" {
         ]
       },
       {
-      "Sid": "SendEmailPermissions",
-      "Effect": "Allow",
-      "Action": [
-        "ses:SendEmail",
-        "ses:SendRawEmail"
-      ],
-      "Resource": "arn:aws:ses:${var.aws_region}:${var.aws_account_id}:identity/*"
-    }
+        "Sid": "DynamoDBWriteAccess",
+        "Effect": "Allow",
+        "Action": [
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:BatchWriteItem"
+        ],
+        "Resource": "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.dynamodb_table_name}"
+      }
     ]
   }
   EOF

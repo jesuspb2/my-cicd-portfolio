@@ -10,6 +10,7 @@ locals {
   from_email             = get_env("FROM_EMAIL")
   to_email               = get_env("TO_EMAIL")
   domain_api_name        = get_env("DOMAIN_API_NAME")
+  dynamodb_table_name    = get_env("DYNAMODB_TABLE_NAME")
 }
 
 remote_state {

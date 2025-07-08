@@ -4,8 +4,8 @@ from unittest import mock
 from moto import mock_aws
 import boto3
 
-table_name = "test-table"
-region_name = "eu-central-1"
+table_name = os.getenv("DYNAMODB_TABLE_NAME")
+region_name = os.getenv("AWS_REGION")
 
 @pytest.fixture
 def dynamodb_table():
