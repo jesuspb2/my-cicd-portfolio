@@ -1,15 +1,16 @@
 import json
+import regex
+import re
 import boto3
 import os
+import uuid
+from datetime import datetime, timezone
 
-SES_REGION = os.getenv("SES_REGION")
-FROM_EMAIL = os.getenv("FROM_EMAIL")
-TO_EMAIL = os.getenv("TO_EMAIL")
-
-ses = boto3.client("ses", region_name=SES_REGION)
 
 def handler(event, context):
     try:
+        dynamodb = boto3.resource("dynamodb", region_name=os.getenv("AWS_REGION"))
+        table = dynamodb.Table(os.getenv("DDB_TABLE"))
         body = json.loads(event.get("body", "{}"))
         name = body.get("name")
         email = body.get("email")
@@ -21,24 +22,29 @@ def handler(event, context):
                 "body": json.dumps({"error": "Missing required fields"})
             }
 
-        if len(name) > 20:
+        if not regex.match(r"^[\p{L}\s'-]+$", name):
             return {
                 "statusCode": 400,
-                "body": json.dumps({"error": "Name must be less than 20 characters"})
+                "body": json.dumps({"error": "Invalid name"})
             }
 
-        ses.send_email(
-            Source=FROM_EMAIL,
-            Destination={"ToAddresses": [TO_EMAIL]},
-            Message={
-                "Subject": {"Data": f"New message from {name}"},
-                "Body": {
-                    "Text": {
-                        "Data": f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
-                    }
-                }
+        if not re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email):
+            return {
+                "statusCode": 400,
+                "body": json.dumps({"error": "Invalid email"})
             }
-        )
+
+        # build the item to store
+        item = {
+            "id": str(uuid.uuid4()),
+            "name": name,
+            "email": email,
+            "message": message,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+
+        # put the item into DynamoDB
+        table.put_item(Item=item)
 
         return {
             "statusCode": 200,
@@ -47,7 +53,7 @@ def handler(event, context):
                 "Access-Control-Allow-Headers": "Content-Type",
                 "Access-Control-Allow-Methods": "OPTIONS,POST"
             },
-            "body": json.dumps({"message": "Email sent successfully!"})
+            "body": json.dumps({"message": "Message stored successfully!"})
         }
 
     except Exception as e:
