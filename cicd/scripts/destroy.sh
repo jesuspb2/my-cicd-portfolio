@@ -7,7 +7,7 @@ echo "[INFO] Destroying resources for module: api_gw"
 terragrunt run-all destroy --terragrunt-non-interactive -no-color
 echo "[INFO] api_gw module destroyed successfully"
 
-cd ../lambda || exit
+cd ../lambda_src || exit
 
 echo "[INFO] Destroying resources for module: lambda"
 terragrunt run-all destroy --terragrunt-non-interactive -no-color

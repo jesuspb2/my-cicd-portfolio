@@ -1,0 +1,4 @@
+pytest
+moto
+boto3
+regex
