@@ -2,7 +2,7 @@ name: CICD - Deploy to DEV
 
 on:
   push:
-    branches: [main, dev-backend]
+    branches: [main, e2e_tests]
 
 permissions:
   id-token: write
@@ -33,6 +33,7 @@ jobs:
       - run: |
           echo "[INFO] Installing Python dependencies..."
           pip install -r backend/tests/requirements.txt
+      - run: |
           echo "[INFO] Running unit tests..."
           pytest backend/tests/test_handler.py -s -v
 
@@ -141,3 +142,67 @@ jobs:
 
       - name: Deploy Frontend
         run: ./cicd/scripts/deploy-frontend.sh
+  
+  # --------------------------- E2E TESTS ---------------------------
+  e2e-tests:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright/python:v1.53.0-noble
+    needs: [deploy-frontend, deploy-backend]
+    environment: DEV
+
+    env:
+      HOME: /root
+      E2E_TIMEOUT: 10000
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Python deps
+      run: pip install -r e2e_tests/requirements.txt
+    - name: Run E2E Tests
+      run: |
+        pytest e2e_tests/test_form_submission.py -s -v --alluredir=allure-results --browser chromium --browser firefox --browser webkit --numprocesses 2
+      continue-on-error: true
+    - name: Upload allure-results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-results
+        path: allure-results
+  
+  # --------------------------- PUBLISH ALLURE REPORT ---------------------------
+  publish-allure:
+    needs: e2e-tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: needs.e2e-tests.result != 'skipped'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download allure-results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+
+      - name: Generate Allure HTML
+        run: |
+          curl -sL https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz | tar -xz
+          ./allure-2.27.0/bin/allure generate allure-results -o allure-report
+
+      - name: Publish report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report
+          publish_branch: gh-pages
+          destination_dir: .
+          keep_files: true
+
+      - name: Add summary link
+        run: |
+          URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+          echo "Allure Report" >> $GITHUB_STEP_SUMMARY
+          echo "[$URL]($URL)" >> $GITHUB_STEP_SUMMARY
