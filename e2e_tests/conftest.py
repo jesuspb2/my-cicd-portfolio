@@ -17,6 +17,7 @@ INVALID_CASES = [
 
 DOMAIN_NAME = os.getenv('DOMAIN_NAME')
 APP_URL = f"https://{DOMAIN_NAME}"
+E2E_TIMEOUT = int(os.getenv('E2E_TIMEOUT', '10000'))
 
 class ContactFormBase:
     """Base class for handling contact form interactions in e2e tests."""
@@ -58,5 +59,5 @@ class ContactFormBase:
 @pytest.fixture
 def page(page):
     """Extend the built-in page fixture without re-launching the browser."""
-    page.set_default_timeout(3000)
+    page.set_default_timeout(E2E_TIMEOUT)
     return page

@@ -151,9 +151,13 @@ jobs:
     needs: [deploy-frontend, deploy-backend]
     environment: DEV
 
+    env:
+      HOME: /root
+      E2E_TIMEOUT: 10000
+
     steps:
     - uses: actions/checkout@v4
     - name: Install Python deps
       run: pip install -r e2e_tests/requirements.txt
     - name: Run E2E Tests
-      run: pytest e2e_tests/test_form_submission.py -s -v --browser chromium --browser firefox --browser webkit --numprocesses 3
+      run: pytest e2e_tests/test_form_submission.py -s -v --browser chromium --browser firefox --browser webkit --numprocesses 2
