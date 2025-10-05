@@ -1,8 +1,14 @@
 name: CICD - Deploy to DEV
 
 on:
-  push:
-    branches: [main, e2e_tests]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to use"
+        required: true
+        type: choice
+        options:
+          - DEV
 
 permissions:
   id-token: write
@@ -26,7 +32,7 @@ jobs:
   # --------------------------- UNIT TESTS ---------------------------
   unit-tests:
     runs-on: ubuntu-latest
-    environment: DEV
+    environment: ${{ inputs.environment }}
 
     steps:
       - uses: actions/checkout@v4
@@ -41,7 +47,7 @@ jobs:
   build-backend:
     runs-on: ubuntu-latest
     needs: unit-tests
-    environment: DEV
+    environment: ${{ inputs.environment }}
 
     outputs:
       IMAGE_TAG: ${{ steps.build_image.outputs.IMAGE_TAG }}
@@ -63,7 +69,7 @@ jobs:
   # --------------------------- BUILD FRONTEND ---------------------------
   build-frontend:
     runs-on: ubuntu-latest
-    environment: DEV
+    environment: ${{ inputs.environment }}
 
     steps:
       - uses: actions/checkout@v4
@@ -86,7 +92,7 @@ jobs:
   deploy-backend:
     runs-on: ubuntu-latest
     needs: build-backend
-    environment: DEV
+    environment: ${{ inputs.environment }}
 
     steps:
       - uses: actions/checkout@v4
@@ -115,7 +121,7 @@ jobs:
   deploy-frontend:
     runs-on: ubuntu-latest
     needs: build-frontend
-    environment: DEV
+    environment: ${{ inputs.environment }}
 
     steps:
       - uses: actions/checkout@v4
@@ -149,7 +155,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright/python:v1.53.0-noble
     needs: [deploy-frontend, deploy-backend]
-    environment: DEV
+    environment: ${{ inputs.environment }}
 
     env:
       HOME: /root
