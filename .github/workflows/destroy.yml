@@ -24,6 +24,11 @@ env:
   BACKEND_DYNAMODB_TABLE: ${{ vars.BACKEND_DYNAMODB_TABLE }}
   BUCKET_FRONT:           ${{ vars.BUCKET_FRONT }}
   ECR_REPO:               ${{ vars.ECR_REPO }}
+  DOMAIN_NAME:            ${{ vars.DOMAIN_NAME }}
+  DOMAIN_API_NAME:        ${{ vars.DOMAIN_API_NAME }}
+  FROM_EMAIL:             ${{ vars.FROM_EMAIL }}
+  TO_EMAIL:               ${{ vars.TO_EMAIL }}
+  DYNAMODB_TABLE_NAME:    ${{ vars.DYNAMODB_TABLE_NAME }}
 
 jobs:
   destroy:
@@ -65,3 +70,55 @@ jobs:
 
       - name: Destroy infrastructure
         run: ./cicd/scripts/destroy.sh
+
+      # ---------- CLEAN UP CLOUDWATCH LOGS ----------
+      - name: Delete Lambda log group
+        run: |
+          aws logs delete-log-group \
+            --log-group-name "/aws/lambda/${{ env.ENV }}-${{ env.APP_NAME }}" \
+            --region "${{ env.AWS_REGION }}" || true
+
+      # ---------- CLEAN UP ECR ----------
+      - name: Delete ECR images and repository
+        run: |
+          IMAGE_IDS=$(aws ecr list-images \
+            --repository-name "${{ env.ECR_REPO }}" \
+            --region "${{ env.AWS_REGION }}" \
+            --query 'imageIds[*]' \
+            --output json 2>/dev/null || echo "[]")
+
+          if [ "$IMAGE_IDS" != "[]" ] && [ -n "$IMAGE_IDS" ]; then
+            aws ecr batch-delete-image \
+              --repository-name "${{ env.ECR_REPO }}" \
+              --region "${{ env.AWS_REGION }}" \
+              --image-ids "$IMAGE_IDS"
+          fi
+
+          aws ecr delete-repository \
+            --repository-name "${{ env.ECR_REPO }}" \
+            --region "${{ env.AWS_REGION }}" \
+            --force || true
+
+      # ---------- CLEAN UP TERRAFORM BACKEND ----------
+      - name: Delete Terraform state S3 bucket
+        run: |
+          aws s3 rm "s3://${{ env.BACKEND_BUCKET }}" --recursive || true
+          aws s3api delete-objects \
+            --bucket "${{ env.BACKEND_BUCKET }}" \
+            --delete "$(aws s3api list-object-versions \
+              --bucket "${{ env.BACKEND_BUCKET }}" \
+              --query '{Objects: Versions[].{Key:Key,VersionId:VersionId}}' \
+              --output json 2>/dev/null)" 2>/dev/null || true
+          aws s3api delete-objects \
+            --bucket "${{ env.BACKEND_BUCKET }}" \
+            --delete "$(aws s3api list-object-versions \
+              --bucket "${{ env.BACKEND_BUCKET }}" \
+              --query '{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}' \
+              --output json 2>/dev/null)" 2>/dev/null || true
+          aws s3api delete-bucket --bucket "${{ env.BACKEND_BUCKET }}" --region "${{ env.AWS_REGION }}" || true
+
+      - name: Delete Terraform state DynamoDB lock table
+        run: |
+          aws dynamodb delete-table \
+            --table-name "${{ env.BACKEND_DYNAMODB_TABLE }}" \
+            --region "${{ env.AWS_REGION }}" || true

@@ -1,29 +1,38 @@
 #!/bin/bash -e
 
-echo "[INFO] Moving into Terragrunt api_gw module directory"
+echo "[INFO] Destroying API Gateway"
 cd ./cicd/deployment/api_gw || exit
-
-echo "[INFO] Destroying resources for module: api_gw"
 terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] api_gw module destroyed successfully"
+echo "[INFO] api_gw destroyed"
 
-cd ../lambda_src || exit
-
-echo "[INFO] Destroying resources for module: lambda"
+echo "[INFO] Destroying Lambda"
+cd ../lambda || exit
 terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] lambda module destroyed successfully"
+echo "[INFO] lambda destroyed"
 
+echo "[INFO] Destroying DynamoDB"
+cd ../dynamodb || exit
+terragrunt run-all destroy --terragrunt-non-interactive -no-color
+echo "[INFO] dynamodb destroyed"
+
+echo "[INFO] Destroying CloudFront"
 cd ../cloudfront || exit
-
-echo "[INFO] Destroying resources for module: CloudFront"
 terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] CloudFront module destroyed successfully"
+echo "[INFO] cloudfront destroyed"
 
+echo "[INFO] Destroying S3"
 cd ../s3 || exit
-
-echo "[INFO] Destroying resources for module: S3"
 terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] S3 module destroyed successfully"
+echo "[INFO] s3 destroyed"
 
+echo "[INFO] Destroying ACM"
+cd ../acm || exit
+terragrunt run-all destroy --terragrunt-non-interactive -no-color
+echo "[INFO] acm destroyed"
+
+echo "[INFO] Destroying Route53"
+cd ../route53 || exit
+terragrunt run-all destroy --terragrunt-non-interactive -no-color
+echo "[INFO] route53 destroyed"
 
 echo "[INFO] Destroy complete"

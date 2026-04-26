@@ -4,6 +4,10 @@ include {
 
 dependency "api_gw" {
   config_path = "../api_gw"
+  mock_outputs = {
+    api_gateway_id = "mock-api-id"
+  }
+  mock_outputs_allowed_terraform_commands = ["destroy"]
 }
 
 locals {
