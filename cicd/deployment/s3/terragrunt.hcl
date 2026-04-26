@@ -4,6 +4,11 @@ include {
 
 dependency "cloudfront" {
   config_path = "../cloudfront"
+
+  mock_outputs = {
+    cloudfront_distribution_arn = "arn:aws:cloudfront::000000000000:distribution/MOCK"
+  }
+  mock_outputs_allowed_terraform_commands = ["destroy"]
 }
 
 locals {
