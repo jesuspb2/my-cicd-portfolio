@@ -24,6 +24,7 @@ env:
   FROM_EMAIL:             ${{ vars.FROM_EMAIL }}
   TO_EMAIL:               ${{ vars.TO_EMAIL }}
   DOMAIN_API_NAME:        ${{ vars.DOMAIN_API_NAME }}
+  DYNAMODB_TABLE_NAME:    ${{ vars.DYNAMODB_TABLE_NAME }}
 
 permissions:
   id-token: write
