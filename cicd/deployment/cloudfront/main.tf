@@ -1,3 +1,20 @@
+resource "aws_cloudfront_function" "redirect" {
+  name    = "${var.env}-${var.app_name}-redirect"
+  runtime = "cloudfront-js-2.0"
+  publish = true
+  code    = <<-EOF
+    function handler(event) {
+      return {
+        statusCode: 301,
+        statusDescription: "Moved Permanently",
+        headers: {
+          "location": { value: "https://jesuspb.dev" }
+        }
+      };
+    }
+  EOF
+}
+
 resource "aws_cloudfront_origin_access_control" "this" {
   name                              = "${var.env}-${var.app_name}"
   description                       = "CloudFront for ${var.app_name}"
@@ -31,6 +48,11 @@ resource "aws_cloudfront_distribution" "this" {
       cookies {
         forward = "none"
       }
+    }
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.redirect.arn
     }
   }
 
