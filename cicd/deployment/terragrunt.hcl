@@ -7,10 +7,10 @@ locals {
   aws_account_id         = get_env("AWS_ACCOUNT_ID")
   ecr_url                = get_env("ECR_URL", "")
   image_tag              = get_env("IMAGE_TAG", "")
-  from_email             = get_env("FROM_EMAIL")
-  to_email               = get_env("TO_EMAIL")
-  domain_api_name        = get_env("DOMAIN_API_NAME")
-  dynamodb_table_name    = get_env("DYNAMODB_TABLE_NAME")
+  from_email             = get_env("FROM_EMAIL", "")
+  to_email               = get_env("TO_EMAIL", "")
+  domain_api_name        = get_env("DOMAIN_API_NAME", "")
+  dynamodb_table_name    = get_env("DYNAMODB_TABLE_NAME", "")
 }
 
 remote_state {
