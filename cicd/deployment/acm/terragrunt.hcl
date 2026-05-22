@@ -4,6 +4,11 @@ include {
 
 dependency "route53" {
   config_path = "../route53"
+
+  mock_outputs = {
+    zone_id = "MOCKZONEID"
+  }
+  mock_outputs_allowed_terraform_commands = ["destroy"]
 }
 
 locals {
