@@ -27,6 +27,11 @@ echo "[INFO] Destroying S3"
 cd ../s3 || exit 1
 tg_destroy
 
+echo "[INFO] Destroying Redirect"
+cd ../redirect || exit
+terragrunt run-all destroy --terragrunt-non-interactive -no-color
+echo "[INFO] redirect destroyed"
+
 echo "[INFO] Destroying ACM"
 cd ../acm || exit 1
 tg_destroy
