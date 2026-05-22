@@ -1,43 +1,42 @@
-#!/bin/bash -e
+#!/bin/bash
+
+set -o pipefail
+
+tg_destroy() {
+  terragrunt run-all destroy --terragrunt-non-interactive -no-color || \
+    echo "[WARN] terragrunt destroy returned non-zero (backend may already be gone), continuing..."
+}
 
 echo "[INFO] Destroying API Gateway"
-cd ./cicd/deployment/api_gw || exit
-terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] api_gw destroyed"
+cd ./cicd/deployment/api_gw || exit 1
+tg_destroy
 
 echo "[INFO] Destroying Lambda"
-cd ../lambda || exit
-terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] lambda destroyed"
+cd ../lambda || exit 1
+tg_destroy
 
 echo "[INFO] Destroying DynamoDB"
-cd ../dynamodb || exit
-terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] dynamodb destroyed"
+cd ../dynamodb || exit 1
+tg_destroy
 
 echo "[INFO] Destroying CloudFront"
-cd ../cloudfront || exit
-terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] cloudfront destroyed"
+cd ../cloudfront || exit 1
+tg_destroy
 
 echo "[INFO] Destroying S3"
-cd ../s3 || exit
-terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] s3 destroyed"
+cd ../s3 || exit 1
+tg_destroy
 
 echo "[INFO] Destroying ACM"
-cd ../acm || exit
-terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] acm destroyed"
+cd ../acm || exit 1
+tg_destroy
 
-echo "[INFO] Destroying ACM redirect"
-cd ../redirect || exit
-terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] redirect destroyed"
+echo "[INFO] Destroying Redirect"
+cd ../redirect || exit 1
+tg_destroy
 
 echo "[INFO] Destroying Route53"
-cd ../route53 || exit
-terragrunt run-all destroy --terragrunt-non-interactive -no-color
-echo "[INFO] route53 destroyed"
+cd ../route53 || exit 1
+tg_destroy
 
 echo "[INFO] Destroy complete"
