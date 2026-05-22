@@ -4,10 +4,20 @@ include {
 
 dependency "acm" {
   config_path = "../acm"
+
+  mock_outputs = {
+    certificate_arn = "arn:aws:acm:us-east-1:000000000000:certificate/mock"
+  }
+  mock_outputs_allowed_terraform_commands = ["destroy"]
 }
 
 dependency "route53" {
   config_path = "../route53"
+
+  mock_outputs = {
+    zone_id = "MOCKZONEID"
+  }
+  mock_outputs_allowed_terraform_commands = ["destroy"]
 }
 
 locals {
