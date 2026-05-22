@@ -71,6 +71,29 @@ jobs:
       - name: Destroy infrastructure
         run: ./cicd/scripts/destroy.sh
 
+      # ---------- CLEAN UP ROUTE53 (fallback for zones not in Terraform state) ----------
+      - name: Delete Route53 hosted zones
+        run: |
+          for DOMAIN in "${{ env.DOMAIN_NAME }}" "www.${{ env.DOMAIN_NAME }}"; do
+            for ZONE_ID in $(aws route53 list-hosted-zones \
+                --query "HostedZones[?Name=='${DOMAIN}.'].Id" \
+                --output text | tr '\t' '\n' | sed 's|/hostedzone/||'); do
+              echo "Deleting records in Route53 zone $ZONE_ID ($DOMAIN)"
+              RECORDS=$(aws route53 list-resource-record-sets \
+                --hosted-zone-id "$ZONE_ID" \
+                --query "ResourceRecordSets[?Type != 'NS' && Type != 'SOA']" \
+                --output json)
+              if [ "$RECORDS" != "[]" ] && [ -n "$RECORDS" ]; then
+                CHANGES=$(echo "$RECORDS" | jq '[.[] | {Action: "DELETE", ResourceRecordSet: .}]')
+                aws route53 change-resource-record-sets \
+                  --hosted-zone-id "$ZONE_ID" \
+                  --change-batch "{\"Changes\": $CHANGES}" || true
+              fi
+              echo "Deleting Route53 zone $ZONE_ID"
+              aws route53 delete-hosted-zone --id "$ZONE_ID" || true
+            done
+          done
+
       # ---------- CLEAN UP CLOUDWATCH LOGS ----------
       - name: Delete Lambda log group
         run: |

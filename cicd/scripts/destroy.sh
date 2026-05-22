@@ -30,6 +30,11 @@ cd ../acm || exit
 terragrunt run-all destroy --terragrunt-non-interactive -no-color
 echo "[INFO] acm destroyed"
 
+echo "[INFO] Destroying ACM redirect"
+cd ../redirect || exit
+terragrunt run-all destroy --terragrunt-non-interactive -no-color
+echo "[INFO] redirect destroyed"
+
 echo "[INFO] Destroying Route53"
 cd ../route53 || exit
 terragrunt run-all destroy --terragrunt-non-interactive -no-color
